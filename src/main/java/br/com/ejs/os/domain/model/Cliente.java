@@ -49,10 +49,9 @@ public class Cliente {
 		this.telefone = telefone;
 	}
 	
-	public boolean naoPodeAdicionar(String email) {
-		return this.getEmail().equals(email);
+	public boolean podeAtualizar(String email) {
+		return !this.getEmail().equals(email);
 	}
-	
 	public Long getId() {
 		return id;
 	}

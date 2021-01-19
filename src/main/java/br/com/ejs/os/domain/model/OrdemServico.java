@@ -13,6 +13,11 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotBlank;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
 @Entity
@@ -23,8 +28,10 @@ public class OrdemServico {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@NotBlank(message = "Descrição não pode estar vazia.")
 	private String descricao;
 	
+	@DecimalMin(value = "1.0")
 	private BigDecimal preco;
 	
 	@Column(name = "data_abertura")
@@ -36,6 +43,7 @@ public class OrdemServico {
 	@ManyToOne
 	private Cliente cliente;
 	
+	@JsonManagedReference
 	@OneToMany(mappedBy = "ordemServico")
 	private List<Comentario> comentarios = new ArrayList<>();
 	
@@ -54,7 +62,11 @@ public class OrdemServico {
 		this.dataAbertura = dataAbertura;
 		this.dataFinalizacao = dataFinalizacao;
 	}
-
+	
+	public boolean podeFinalizarOuCancelar() {
+		return StatusOrdemSevicoEnum.ABERTA.getDescricao().equals(this.status.getDescricao());
+	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -101,6 +113,23 @@ public class OrdemServico {
 
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
+	}
+	
+
+	public List<Comentario> getComentarios() {
+		return comentarios;
+	}
+
+	public void setComentarios(List<Comentario> comentarios) {
+		this.comentarios = comentarios;
+	}
+
+	public StatusOrdemSevicoEnum getStatus() {
+		return status;
+	}
+
+	public void setStatus(StatusOrdemSevicoEnum status) {
+		this.status = status;
 	}
 
 	@Override

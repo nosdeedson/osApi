@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.ejs.os.api.input.ClienteInput;
+import br.com.ejs.os.domain.model.Cliente;
 import br.com.ejs.os.domain.model.dto.ClienteDTO;
 import br.com.ejs.os.domain.service.CadastroClienteService;
 
@@ -33,8 +34,9 @@ public class ClienteController {
 	}
 	
 	@PutMapping
-	public void atualizar( @RequestBody ClienteInput in) throws Exception{
-		this.adicionar(in);
+	public ResponseEntity<?> atualizar( @RequestBody Cliente cliente) throws Exception{
+		ClienteDTO dto = cadastroClienteService.atualizar(cliente);
+		return ResponseEntity.ok(dto);
 	}
 
 	@GetMapping("{clienteId}")

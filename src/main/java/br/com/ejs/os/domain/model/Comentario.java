@@ -9,6 +9,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 @Entity
 public class Comentario {
@@ -22,6 +25,7 @@ public class Comentario {
 	@Column(name = "data_envio")
 	private OffsetDateTime dataEnvio;
 	
+	@JsonBackReference
 	@ManyToOne
 	private OrdemServico ordemServico;
 	

@@ -2,7 +2,7 @@ package br.com.ejs.os.domain.model;
 
 public enum StatusOrdemSevicoEnum {
 	
-ABERTA("Aberta 1"), FINALIZADA("Finalizada 2"), CANCELADA("Cancelada 3");
+ABERTA("Aberta"), FINALIZADA("Finalizada"), CANCELADA("Cancelada");
 	
 	private String descricao;
 	StatusOrdemSevicoEnum(String descricao) {
