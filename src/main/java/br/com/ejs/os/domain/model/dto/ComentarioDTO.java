@@ -7,7 +7,17 @@ public class ComentarioDTO {
 	private Long id;
 	private String descricao;
 	private OffsetDateTime dataEnvio;
+		
+	public ComentarioDTO() {
 	
+	}
+	
+	public ComentarioDTO(Long id, String descricao, OffsetDateTime dataEnvio) {
+		
+		this.id = id;
+		this.descricao = descricao;
+		this.dataEnvio = dataEnvio;
+	}
 	public Long getId() {
 		return id;
 	}

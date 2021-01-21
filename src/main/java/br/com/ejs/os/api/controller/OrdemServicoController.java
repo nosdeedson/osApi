@@ -1,5 +1,8 @@
 package br.com.ejs.os.api.controller;
 
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -59,8 +62,15 @@ public class OrdemServicoController {
 	}
 	
 	@GetMapping("{/clienteId}")
-	public ResponseEntity<?> listarPorCliente(@RequestParam Long clienteId){
+	public ResponseEntity<?> listarPorCliente(@RequestParam(name = "clienteId") Long clienteId){
 		return ResponseEntity.ok(gerirOrdemServico.listarPorCliente(clienteId));
+	}
+	
+	@GetMapping("/periodo")
+	public ResponseEntity<?> listarPorPeriodo( @RequestParam(name = "ordemServicoId" )Long ordemServicoId,
+			@PathVariable (name = "dataDe", required = false) OffsetDateTime dataDe, //
+			@PathVariable (name = "dataAte", required = false) OffsetDateTime dataAte){
+		return ResponseEntity.ok(gerirOrdemServico.listarPorPeriodo(dataDe, dataDe, ordemServicoId));
 	}
 	
 }

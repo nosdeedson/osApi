@@ -20,6 +20,7 @@ import br.com.ejs.os.domain.model.dto.ComentarioDTO;
 import br.com.ejs.os.domain.model.dto.OrdemServicoDTO;
 import br.com.ejs.os.domain.repository.ClienteRepository;
 import br.com.ejs.os.domain.repository.ComentarioRepository;
+import br.com.ejs.os.domain.repository.OrdemServicoCustomRepository;
 import br.com.ejs.os.domain.repository.OrdemServicoRepository;
 
 @Service
@@ -33,6 +34,9 @@ public class GerirOrdemServicoService {
 	
 	@Autowired
 	private ComentarioRepository comentarioRepository;
+	
+	@Autowired
+	private OrdemServicoCustomRepository ordemCustom;
 
 	@Autowired
 	private ModelMapper mapper;
@@ -84,6 +88,7 @@ public class GerirOrdemServicoService {
 
 		if (ordemServico.podeFinalizarOuCancelar()) {
 			ordemServico.setStatus(StatusOrdemSevicoEnum.CANCELADA);
+			ordemServico.setDataCancelamento(OffsetDateTime.now());
 			ordemServico = ordemServicoRepository.save(ordemServico);
 			return this.entityToDTO(ordemServico);
 		}
@@ -135,6 +140,12 @@ public class GerirOrdemServicoService {
 			throw new NaoEncotrado("Cliente não tem ordem serviços.");
 		}
 		return this.listaEntityToDTO(lista);
+	}
+	
+	public List<OrdemServicoDTO> listarPorPeriodo( OffsetDateTime dataInicio, OffsetDateTime dataFim, Long ordemServicoId){
+		List<OrdemServicoDTO> ordens = ordemCustom.listarPorPeriodo( dataInicio, dataFim, ordemServicoId);
+		
+		return ordens;
 	}
 	
 	//########################## Métodos comentários ########################################

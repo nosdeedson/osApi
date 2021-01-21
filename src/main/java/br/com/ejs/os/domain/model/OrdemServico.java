@@ -16,7 +16,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
@@ -40,6 +39,9 @@ public class OrdemServico {
 	@Column(name = "data_finalizacao")
 	private OffsetDateTime dataFinalizacao;
 	
+	@Column(name = "data_cancelamento")
+	private OffsetDateTime dataCancelamento;
+	
 	@ManyToOne
 	private Cliente cliente;
 	
@@ -55,12 +57,13 @@ public class OrdemServico {
 	}
 
 	public OrdemServico( String descricao, BigDecimal preco, OffsetDateTime dataAbertura,
-			OffsetDateTime dataFinalizacao) {
+			OffsetDateTime dataFinalizacao, OffsetDateTime dataCancelamento) {
 		super();
 		this.descricao = descricao;
 		this.preco = preco;
 		this.dataAbertura = dataAbertura;
 		this.dataFinalizacao = dataFinalizacao;
+		this.dataCancelamento = dataCancelamento;
 	}
 	
 	public boolean podeFinalizarOuCancelar() {
@@ -105,6 +108,14 @@ public class OrdemServico {
 
 	public void setDataFinalizacao(OffsetDateTime dataFinalizacao) {
 		this.dataFinalizacao = dataFinalizacao;
+	}
+
+	public OffsetDateTime getDataCancelamento() {
+		return dataCancelamento;
+	}
+
+	public void setDataCancelamento(OffsetDateTime dataCancelamento) {
+		this.dataCancelamento = dataCancelamento;
 	}
 
 	public Cliente getCliente() {

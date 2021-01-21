@@ -13,12 +13,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.ejs.os.api.input.ClienteInput;
 import br.com.ejs.os.domain.model.Cliente;
+import br.com.ejs.os.domain.model.StatusOrdemSevicoEnum;
 import br.com.ejs.os.domain.model.dto.ClienteDTO;
+import br.com.ejs.os.domain.repository.ClienteCustomRepository;
 import br.com.ejs.os.domain.service.CadastroClienteService;
+import br.com.ejs.os.domain.service.ClienteComentarios;
 
 @RestController
 @RequestMapping("clientes")
@@ -26,6 +30,12 @@ public class ClienteController {
 
 	@Autowired
 	private CadastroClienteService cadastroClienteService;
+	
+	@Autowired
+	private ClienteCustomRepository cliCustom;
+	
+	@Autowired
+	private ClienteComentarios clienteComentarios;
 	
 	@PostMapping
 	public ResponseEntity<?> adicionar( @Valid @RequestBody ClienteInput in) throws Exception{
@@ -57,9 +67,17 @@ public class ClienteController {
 		return ResponseEntity.ok(clientesDTO);
 	}
 	
+	@GetMapping("contar")
+	public ResponseEntity<?> contar(@RequestParam(name = "like") String like){
+		return ResponseEntity.ok(cliCustom.contarClientes(like));
+	}
 	
-	
-	
+	@GetMapping("comentarios")
+	public ResponseEntity<?> listarComentarios( @RequestParam(name = "clienteId") Long clienteId, //
+			@RequestParam(name = "status") StatusOrdemSevicoEnum status){
+		return ResponseEntity.ok(clienteComentarios.listarComentarios(clienteId, status));
+	}
+
 	
 	
 	
